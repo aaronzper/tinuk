@@ -5,6 +5,7 @@ EXTERN _init
 EXTERN kmain
 EXTERN bootboot
 EXTERN fb
+EXTERN _binary_kernel_drivers_vesa_font_psf_start
 
 _start:
 	mov rax, 1
@@ -15,6 +16,7 @@ _start:
 
 	mov rdi, bootboot ; Load bootboot struct as first param to kmain()
 	mov rsi, fb ; Load VESA framebuffer addr as second param to kmain()
+	mov rdx, _binary_kernel_drivers_vesa_font_psf_start ; Load pointer to PSF header as third param to kmain()
 	call kmain
 
 _hang:

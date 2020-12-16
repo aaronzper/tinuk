@@ -2,6 +2,7 @@ ARCH := x86_64
 
 CXX := $(ARCH)-elf-g++
 AS 	:= nasm
+LD := $(ARCH)-elf-ld
 
 CXXFLAGS?=-g
 ASFLAGS?=-g
@@ -19,23 +20,24 @@ LIBS := -nostdlib -lgcc
 
 KOBJ := $(subst .cpp,.o,$(shell find $(KDIR) -type f -name "*.cpp"))
 KOBJ += $(subst .asm,.o,$(shell find $(KDIR) -type f -name "*.asm"))
+KOBJ += $(subst .psf,.o,$(shell find $(KDIR) -type f -name "*.psf"))
 
 all: install
 
 qemu: install
-	qemu-system-x86_64 $(QEMUFLAGS) 
+	qemu-system-$(ARCH) $(QEMUFLAGS) 
 
 qemu-debug: install
-	qemu-system-x86_64 $(QEMUFLAGS) -s -S
+	qemu-system-$(ARCH) $(QEMUFLAGS) -s -S
 
 install: build
 	mkdir -p $(OBJDIR)/boot
 	cp $(OBJDIR)/kernel.elf $(OBJDIR)/boot/
 	mkbootimg bootboot.json tinuk.img
 
-build: headers $(OBJDIR)/kernel.elf
+build: $(OBJDIR)/kernel.elf
 
-$(OBJDIR)/kernel.elf: $(KOBJ)	
+$(OBJDIR)/kernel.elf: headers $(KOBJ)	
 	mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -T $(KDIR)/arch/$(ARCH)/linker.ld -o $@ $(KOBJ) $(LIBS)
 
@@ -44,6 +46,9 @@ $(OBJDIR)/kernel.elf: $(KOBJ)
 
 %.o: %.asm
 	$(AS) $(ASFLAGS) -o $@ $< 
+
+%.o: %.psf
+	$(LD) -r -b binary -o $@ $<
 
 headers:
 	mkdir -p $(OBJDIR)/include/
