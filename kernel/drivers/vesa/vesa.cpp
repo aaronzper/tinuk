@@ -1,15 +1,32 @@
 #include <kernel/drivers/vesa.h>
-#include <kernel/bootboot.h>
-#include <stdint.h>
 
-extern BOOTBOOT bootboot;               // see bootboot.h
-extern uint8_t fb;
+VESADriver::VESADriver(uint8_t* fb_ptr, uint32_t s, uint32_t w, uint32_t h) {
+    fb = (ARGB*)fb_ptr;
+    scanline = s;
+    width = w;
+    height = h;
+}
 
-void vesa() {
-	/*** NOTE: this code runs on all cores in parallel ***/
-    int x, y, s=bootboot.fb_scanline, w=bootboot.fb_width, h=bootboot.fb_height;
+void VESADriver::crosshair(ARGB color, unsigned int x, unsigned int y) {
+    for(unsigned int y_pos = 0; y_pos < height; y_pos++) {
+        fb[(width * y_pos) + (y)] = color;
+    }
 
-    // cross-hair to see screen dimension detected correctly
-    for(y=0;y<h;y++) { *((uint32_t*)(&fb + s*y + (w*2)))=0x00FFFFFF; }
-    for(x=0;x<w;x++) { *((uint32_t*)(&fb + s*(h/2)+x*4))=0x00FFFFFF; }
+    for(unsigned int x_pos = 0; x_pos < width; x_pos++) {
+        fb[(x) * width + x_pos] = color;
+    }
+}
+
+void VESADriver::box(ARGB color, unsigned int x, unsigned int y, unsigned int w, unsigned int h) {
+    unsigned int max_x = x + w;
+    unsigned int max_y = y + h;
+    unsigned int orig_x = x;
+
+    for( ; y < max_y; y++) {
+        for( ; x < max_x; x++) {
+            fb[(width * y) + x] = color;
+        }
+
+        x = orig_x;
+    }
 }
