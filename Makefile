@@ -48,6 +48,7 @@ $(OBJDIR)/kernel.elf: $(KOBJ)
 headers:
 	mkdir -p $(OBJDIR)/include/
 	ln -s -f $(PWD)/$(KDIR)/include/ $(PWD)/$(OBJDIR)/include/$(KDIR)
+	rm -f $(KDIR)/include/include # If there's already a symlink for build/include/kernel it'll make another one in kernel/include, so delete it if that happens
 
 clean:
 	rm -f -r $(OBJDIR)
