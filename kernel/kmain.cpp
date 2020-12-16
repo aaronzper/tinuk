@@ -1,25 +1,25 @@
 #include <kernel/drivers/vesa.h>
 #include <kernel/bootboot.h>
 
-extern "C" void kmain(BootbootInfo* bootboot, ARGB* fb) {
-	VESABuffer v(fb, bootboot->fb_width, bootboot->fb_height);
+extern "C" void kmain(BootbootInfo* bootboot, VESA::ARGB* fb) {
+	VESA::VESABuffer v(fb, bootboot->fb_width, bootboot->fb_height);
 	
-	ARGB red;
+	VESA::ARGB red;
 	red.red = 255;
 
-	ARGB white;
+	VESA::ARGB white;
 	white.red = 255;
 	white.green = 255;
 	white.blue = 255;
 	
-	ARGB blue;
+	VESA::ARGB blue;
 	blue.blue = 255;
 
 	int width = 1000;
 	int bar_height = 40;
 
 	for(int i = 0; i < 13; i++) {
-		ARGB color;
+		VESA::ARGB color;
 		if (i % 2 == 0) {
 			color = red;
 		}

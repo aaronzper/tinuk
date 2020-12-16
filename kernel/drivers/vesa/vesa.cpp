@@ -1,5 +1,7 @@
 #include <kernel/drivers/vesa.h>
 
+using namespace VESA;
+
 VESABuffer::VESABuffer(ARGB* fb_ptr, uint32_t w, uint32_t h) {
     fb = fb_ptr;
     width = w;
