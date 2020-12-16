@@ -1,7 +1,4 @@
 {
-    "diskguid": "00000000-0000-0000-0000-000000000000",
-    "disksize": 128,
-    "align": 1024,
     "iso9660": true,
     "config": "bootconfig.txt",
     "initrd": { "type": "tar", "gzip": true, "directory": "build/boot" },
