@@ -10,7 +10,7 @@ CPPFLAGS?=
 KDIR 	:= kernel
 OBJDIR 	:= build
 
-CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra
+CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra -mcmodel=large
 ASFLAGS += -f elf64
 CPPFLAGS += -D__is_kernel -I$(OBJDIR)/include
 QEMUFLAGS := -cdrom tinuk.img
@@ -46,8 +46,8 @@ $(OBJDIR)/kernel.elf: $(KOBJ)
 	$(AS) $(ASFLAGS) -o $@ $< 
 
 headers:
-	mkdir -p $(OBJDIR)/include/$(KDIR)/
-	cp -r $(wildcard $(KDIR)/include/*) $(OBJDIR)/include/$(KDIR)/
+	mkdir -p $(OBJDIR)/include/
+	ln -s $(PWD)/$(KDIR)/include/ $(PWD)/$(OBJDIR)/include/$(KDIR)
 
 clean:
 	rm -f -r $(OBJDIR)
