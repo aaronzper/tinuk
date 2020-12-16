@@ -1,11 +1,12 @@
 #include <kernel/drivers/vesa.h>
 #include <kernel/bootboot.h>
 
-extern BOOTBOOT bootboot;
-extern uint8_t fb;
+extern "C" void kmain(BootbootInfo* bootboot, ARGB* fb) {
+	if(bootboot->magic != BOOTBOOT_MAGIC) {
+		// Do something idk
+	}
 
-extern "C" void kmain() {
-	VESADriver v(&fb, bootboot.fb_scanline, bootboot.fb_width, bootboot.fb_height);
+	VESADriver v(fb, bootboot->fb_scanline, bootboot->fb_width, bootboot->fb_height);
 	
 	ARGB red;
 	red.red = 255;

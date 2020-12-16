@@ -1,5 +1,5 @@
 /*
- * bootboot.h
+ * Derived (with changes) from bootboot.h at https://gitlab.com/bztsrc/bootboot/-/blob/master/dist/bootboot.h
  *
  * Copyright (C) 2017 - 2020 bzt (bztsrc@gitlab)
  *
@@ -91,7 +91,7 @@ typedef struct {
 
 typedef struct {
   /* first 64 bytes is platform independent */
-  uint8_t    magic[4];    /* 'BOOT' magic */
+  char       magic[4];    /* 'BOOT' magic */
   uint32_t   size;        /* length of bootboot structure, minimum 128 */
   uint8_t    protocol;    /* 1, static addresses, see PROTOCOL_* and LOADER_* above */
   uint8_t    fb_type;     /* framebuffer type, see FB_* above */
@@ -136,7 +136,7 @@ typedef struct {
   /* use like this:
    * MMapEnt *mmap_ent = &bootboot.mmap; mmap_ent++;
    * until you reach bootboot->size */
-} __attribute__((packed)) BOOTBOOT;
+} __attribute__((packed)) BootbootInfo;
 
 
 #ifdef  __cplusplus

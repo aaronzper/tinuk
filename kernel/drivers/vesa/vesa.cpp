@@ -1,7 +1,7 @@
 #include <kernel/drivers/vesa.h>
 
-VESADriver::VESADriver(uint8_t* fb_ptr, uint32_t s, uint32_t w, uint32_t h) {
-    fb = (ARGB*)fb_ptr;
+VESADriver::VESADriver(ARGB* fb_ptr, uint32_t s, uint32_t w, uint32_t h) {
+    fb = fb_ptr;
     scanline = s;
     width = w;
     height = h;
