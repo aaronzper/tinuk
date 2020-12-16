@@ -1,13 +1,12 @@
 #include <kernel/drivers/vesa.h>
 
-VESADriver::VESADriver(ARGB* fb_ptr, uint32_t s, uint32_t w, uint32_t h) {
+VESABuffer::VESABuffer(ARGB* fb_ptr, uint32_t w, uint32_t h) {
     fb = fb_ptr;
-    scanline = s;
     width = w;
     height = h;
 }
 
-void VESADriver::crosshair(ARGB color, unsigned int x, unsigned int y) {
+void VESABuffer::crosshair(ARGB color, unsigned int x, unsigned int y) {
     for(unsigned int y_pos = 0; y_pos < height; y_pos++) {
         fb[(width * y_pos) + (y)] = color;
     }
@@ -17,7 +16,7 @@ void VESADriver::crosshair(ARGB color, unsigned int x, unsigned int y) {
     }
 }
 
-void VESADriver::box(ARGB color, unsigned int x, unsigned int y, unsigned int w, unsigned int h) {
+void VESABuffer::box(ARGB color, unsigned int x, unsigned int y, unsigned int w, unsigned int h) {
     unsigned int max_x = x + w;
     unsigned int max_y = y + h;
     unsigned int orig_x = x;

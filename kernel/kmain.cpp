@@ -2,11 +2,7 @@
 #include <kernel/bootboot.h>
 
 extern "C" void kmain(BootbootInfo* bootboot, ARGB* fb) {
-	if(bootboot->magic != BOOTBOOT_MAGIC) {
-		// Do something idk
-	}
-
-	VESADriver v(fb, bootboot->fb_scanline, bootboot->fb_width, bootboot->fb_height);
+	VESABuffer v(fb, bootboot->fb_width, bootboot->fb_height);
 	
 	ARGB red;
 	red.red = 255;
