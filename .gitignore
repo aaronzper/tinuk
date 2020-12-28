@@ -1,3 +1,5 @@
 *.o
 *.img
 build/
+.cache/
+compile_commands.json
