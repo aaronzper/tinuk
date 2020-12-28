@@ -6,7 +6,7 @@ CXXFLAGS?=-g -Og
 ASFLAGS?=-g
 CPPFLAGS?=
 
-CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra -mcmodel=large -fno-exceptions
+CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra -mcmodel=large -fno-exceptions -fno-rtti
 ASFLAGS += -f elf64
 CPPFLAGS += -D__is_kernel -I$(OBJDIR)/include
 

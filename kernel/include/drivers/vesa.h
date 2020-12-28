@@ -1,5 +1,8 @@
 #include <kernel/bootboot.h>
 #include <stdint.h>
+#include <kernel/drivers/terminal.h>
+
+#pragma once
 
 namespace VESA {
     const uint32_t PSF_magic = 0x864ab572;
@@ -37,13 +40,31 @@ namespace VESA {
     class VESABuffer {
         public:
             VESABuffer(ARGB* fb_ptr, uint32_t w, uint32_t h, uint32_t s);
+
+			uint32_t getWidth();
+			uint32_t getHeight();
+			uint32_t getScanline();
+
             void crosshair(ARGB color, unsigned int x, unsigned int y);
             void box(ARGB color, unsigned int x, unsigned int y, unsigned int w, unsigned int h);
             void drawchar(char c, PSF font, unsigned int cx, unsigned int cy, ARGB fg, ARGB bg);
+
         private:
             ARGB* fb;
             uint32_t width;
             uint32_t height;
             uint32_t scanline;
     };
+
+	class VESATerminal : public Terminal {
+		public:
+			VESATerminal(VESABuffer _buf, ARGB _fg, ARGB _bg, PSF _font);
+			void write(const char* str) override;
+
+		private:
+			VESABuffer buf;	
+			ARGB fg;
+			ARGB bg;
+			PSF font;
+	};
 }

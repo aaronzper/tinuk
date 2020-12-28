@@ -10,6 +10,18 @@ VESABuffer::VESABuffer(ARGB* fb_ptr, uint32_t w, uint32_t h, uint32_t s) {
     scanline = s;
 }
 
+uint32_t VESABuffer::getWidth() {
+	return width;	
+}
+
+uint32_t VESABuffer::getHeight() {
+	return height;
+}
+
+uint32_t VESABuffer::getScanline() {
+	return scanline;
+}
+
 void VESABuffer::crosshair(ARGB color, unsigned int x, unsigned int y) {
     for(unsigned int y_pos = 0; y_pos < height; y_pos++) {
         fb[(width * y_pos) + (y)] = color;
