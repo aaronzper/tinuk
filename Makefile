@@ -13,14 +13,14 @@ qemu: install
 qemu-debug: install
 	qemu-system-$(ARCH) $(QEMUFLAGS) -s -S
 
-install: build
+install: $(OBJDIR)/kernel.elf
 	mkdir -p $(OBJDIR)/boot
-	cp $(OBJDIR)/kernel.elf $(OBJDIR)/boot/
+	cp $< $(OBJDIR)/boot/
 	mkbootimg bootboot.json tinuk.img
 
-build:
-	make -f $(KDIR)/Makefile
+$(OBJDIR)/kernel.elf:
+	$(MAKE) -f $(KDIR)/Makefile $@
 
 clean:
-	make -f $(KDIR)/Makefile clean
+	$(MAKE) -f $(KDIR)/Makefile clean
 	rm -rf $(OBJDIR)
