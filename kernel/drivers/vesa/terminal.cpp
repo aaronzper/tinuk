@@ -1,4 +1,5 @@
 #include <kernel/drivers/vesa.h>
+#include <kernel/string.h>
 
 using namespace VESA;
 
@@ -14,6 +15,15 @@ void VESATerminal::write(const char* str, size_t len) {
 		if(str[i] == '\n') {
 			x = 0;
 			line++;
+			continue;
+		}
+
+		if(str[i] == '\t') {
+			const uint8_t tabwidth = 8;
+			unsigned int offset = tabwidth - (x % tabwidth);
+			if (offset == 0) offset = tabwidth;
+
+			x += offset;
 			continue;
 		}
 
