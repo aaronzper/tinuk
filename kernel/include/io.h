@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace io {
+namespace IO {
 	void set_terminal(Terminal* t);
-	void printk(const char* str);
+	void printk(const char* fmt, ...);
 }
