@@ -1,7 +1,6 @@
 #include <kernel/drivers/vesa.h>
 
 using namespace VESA;
-extern unsigned char _binary_kernel_drivers_vesa_font_psf_start;
 
 VESABuffer::VESABuffer(ARGB* fb_ptr, uint32_t w, uint32_t h, uint32_t s) {
 	fb = fb_ptr;
@@ -47,13 +46,7 @@ void VESABuffer::box(ARGB color, unsigned int x, unsigned int y, unsigned int w,
 }
 
 void VESABuffer::drawchar(char c, PSF font, unsigned int cx, unsigned int cy, ARGB fg, ARGB bg) {
-	//unsigned char* glyph = font[c];
-	auto h = font.header();
-
-	unsigned char *glyph =
-		(unsigned char*)&_binary_kernel_drivers_vesa_font_psf_start +
-		h.headersize +
-		(c>0&&c<h.numglyph?c:0)*h.bytesperglyph;
+	unsigned char* glyph = font[c];
 
 	unsigned int x = cx * font.width();
 	unsigned int y = cy * font.height();
