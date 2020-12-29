@@ -4,7 +4,7 @@
 
 extern char environment;
 
-extern "C" void kmain(BootbootInfo* bootboot, VESA::ARGB* fb, VESA::PSFHeader* psf) {
+extern "C" void kmain(BootbootInfo* bootboot, VESA::ARGB* fb, VESA::PSFHeader* psf, const char* environment) {
 	VESA::VESABuffer v(fb, bootboot->fb_width, bootboot->fb_height, bootboot->fb_scanline);
 	VESA::PSF font(psf);
 
@@ -17,5 +17,5 @@ extern "C" void kmain(BootbootInfo* bootboot, VESA::ARGB* fb, VESA::PSFHeader* p
 	VESA::VESATerminal term(v, white, black, font);
 	io::set_terminal(&term);
 
-	io::printk("Initialized VESA terminal");
+	io::printk("Initialized VESA terminal\n");
 }
