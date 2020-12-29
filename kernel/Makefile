@@ -1,6 +1,6 @@
 CXX := $(ARCH)-elf-g++
 AS 	:= nasm
-LD := $(ARCH)-elf-ld
+LD	:= $(ARCH)-elf-ld
 
 CXXFLAGS?=-g -Og
 ASFLAGS?=-g
@@ -12,17 +12,20 @@ CPPFLAGS += -D__is_kernel -I$(OBJDIR)/include
 
 LIBS := -nostdlib -lgcc
 
-KOBJ := $(subst .cpp,.o,$(shell find $(KDIR) -type f -name "*.cpp"))
-KOBJ += $(subst .asm,.o,$(shell find $(KDIR) -type f -name "*.asm"))
-KOBJ += $(subst .psf,.o,$(shell find $(KDIR) -type f -name "*.psf"))
+KOBJ := $(subst .cpp,.o,$(shell find $(KDIR) -type f -name "*.cpp" -not -path "$(KDIR)/arch/*"))
+KOBJ += $(subst .asm,.o,$(shell find $(KDIR) -type f -name "*.asm" -not -path "$(KDIR)/arch/*"))
+KOBJ += $(subst .psf,.o,$(shell find $(KDIR) -type f -name "*.psf" -not -path "$(KDIR)/arch/*"))
+
+KARCHOBJ := $(subst .cpp,.o,$(shell find $(KDIR)/arch/$(ARCH)/ -type f -name "*.cpp"))
+KARCHOBJ += $(subst .asm,.o,$(shell find $(KDIR)/arch/$(ARCH)/ -type f -name "*.asm"))
 
 .PHONY: all headers clean
 
 all: $(OBJDIR)/kernel.elf
 
-$(OBJDIR)/kernel.elf: headers $(KOBJ)
+$(OBJDIR)/kernel.elf: headers $(KOBJ) $(KARCHOBJ)
 	mkdir -p $(OBJDIR)
-	$(CXX) $(CXXFLAGS) -T $(KDIR)/arch/$(ARCH)/linker.ld -o $@ $(KOBJ) $(LIBS)
+	$(CXX) $(CXXFLAGS) -T $(KDIR)/arch/$(ARCH)/linker.ld -o $@ $(KOBJ) $(KARCHOBJ) $(LIBS)
 
 %.o: %.cpp
 	$(CXX) -c $< -o $@ $(CXXFLAGS) $(CPPFLAGS)
