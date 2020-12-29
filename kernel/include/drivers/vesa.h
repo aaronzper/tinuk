@@ -59,7 +59,7 @@ namespace VESA {
 	class VESATerminal : public Terminal {
 		public:
 			VESATerminal(VESABuffer _buf, ARGB _fg, ARGB _bg, PSF _font);
-			void write(const char* str) override;
+			void write(const char* str, size_t len) override;
 
 		private:
 			VESABuffer buf;	

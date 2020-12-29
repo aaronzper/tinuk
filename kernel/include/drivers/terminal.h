@@ -4,5 +4,5 @@
 
 class Terminal {
 	public:
-		virtual void write(const char* str) = 0;
+		virtual void write(const char* str, size_t len) = 0;
 };

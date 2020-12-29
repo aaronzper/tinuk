@@ -7,10 +7,10 @@ VESATerminal::VESATerminal(VESABuffer _buf, ARGB _fg, ARGB _bg, PSF _font) : buf
 	bg = _bg;
 }
 
-void VESATerminal::write(const char* str) {
+void VESATerminal::write(const char* str, size_t len) {
 	static unsigned int line = 0;
 	static unsigned int x = 0;
-	for(int i = 0; str[i] != '\0'; i++) {
+	for(size_t i = 0; i < len; i++) {
 		if(str[i] == '\n') {
 			x = 0;
 			line++;
