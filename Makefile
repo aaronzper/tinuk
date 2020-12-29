@@ -5,6 +5,8 @@ QEMUFLAGS := -cdrom tinuk.img
 export OBJDIR := build
 export KDIR := kernel
 
+.PHONY: all qemu qemu-debug install kernel clean
+
 all: install
 
 qemu: install
@@ -13,13 +15,13 @@ qemu: install
 qemu-debug: install
 	qemu-system-$(ARCH) $(QEMUFLAGS) -s -S
 
-install: $(OBJDIR)/kernel.elf
+install: kernel
 	mkdir -p $(OBJDIR)/boot
-	cp $< $(OBJDIR)/boot/
+	cp $(OBJDIR)/kernel.elf $(OBJDIR)/boot/
 	mkbootimg bootboot.json tinuk.img
 
-$(OBJDIR)/kernel.elf:
-	$(MAKE) -f $(KDIR)/Makefile $@
+kernel:
+	$(MAKE) -f $(KDIR)/Makefile
 
 clean:
 	$(MAKE) -f $(KDIR)/Makefile clean

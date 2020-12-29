@@ -16,6 +16,8 @@ KOBJ := $(subst .cpp,.o,$(shell find $(KDIR) -type f -name "*.cpp"))
 KOBJ += $(subst .asm,.o,$(shell find $(KDIR) -type f -name "*.asm"))
 KOBJ += $(subst .psf,.o,$(shell find $(KDIR) -type f -name "*.psf"))
 
+.PHONY: all headers clean
+
 all: $(OBJDIR)/kernel.elf
 
 $(OBJDIR)/kernel.elf: headers $(KOBJ)
