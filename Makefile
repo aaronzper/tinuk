@@ -1,9 +1,9 @@
 export ARCH := x86_64
 
-QEMUFLAGS := -cdrom tinuk.img
-
 export OBJDIR := build
 export KDIR := kernel
+
+QEMUFLAGS := -cdrom tinuk.img -smp 8
 
 .PHONY: all qemu qemu-debug install kernel clean
 
