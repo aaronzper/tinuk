@@ -42,4 +42,4 @@ headers:
 	rm -f $(KDIR)/include/include # If there's already a symlink for build/include/kernel it'll make another one in kernel/include, so delete it if that happens
 
 clean:
-	rm -f $(KOBJ)
+	rm -f $(KOBJ) $(KARCHOBJ)
