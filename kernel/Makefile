@@ -14,7 +14,7 @@ LIBS := -nostdlib -lgcc
 
 KOBJ := $(subst .cpp,.o,$(shell find $(KDIR) -type f -name "*.cpp" -not -path "$(KDIR)/arch/*"))
 KOBJ += $(subst .asm,.o,$(shell find $(KDIR) -type f -name "*.asm" -not -path "$(KDIR)/arch/*"))
-KOBJ += $(subst .psf,.o,$(shell find $(KDIR) -type f -name "*.psf" -not -path "$(KDIR)/arch/*"))
+KOBJ += $(subst .bin,.o,$(shell find $(KDIR) -type f -name "*.bin" -not -path "$(KDIR)/arch/*"))
 
 KARCHOBJ := $(subst .cpp,.o,$(shell find $(KDIR)/arch/$(ARCH)/ -type f -name "*.cpp"))
 KARCHOBJ += $(subst .asm,.o,$(shell find $(KDIR)/arch/$(ARCH)/ -type f -name "*.asm"))
@@ -33,7 +33,7 @@ $(OBJDIR)/kernel.elf: headers $(KOBJ) $(KARCHOBJ)
 %.o: %.asm
 	$(AS) $(ASFLAGS) -o $@ $< 
 
-%.o: %.psf
+%.o: %.bin
 	$(LD) -r -b binary -o $@ $<
 
 headers:
