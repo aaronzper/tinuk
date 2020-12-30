@@ -1,7 +1,6 @@
 #include <kernel/drivers/vesa.h>
 
 using namespace VESA;
-extern unsigned char _binary_kernel_drivers_vesa_font_psf_start;
 
 PSF::PSF(PSFHeader* h) {
 	if(psf_header->magic != PSF_magic) {
@@ -16,7 +15,7 @@ PSFHeader PSF::header() {
 }
 
 unsigned char* PSF::operator[](char c) {
-		return &_binary_kernel_drivers_vesa_font_psf_start +
+		return (unsigned char*)psf_header +
 		psf_header->headersize +
 		(c > 0 && (uint32_t)c < psf_header->numglyph ? c : 0) * psf_header->bytesperglyph;
 }
