@@ -1,16 +1,16 @@
-CXX := $(ARCH)-elf-g++
-AS 	:= nasm
-LD	:= $(ARCH)-elf-ld
+CXX := clang++ -target $(ARCH)-pc-none-elf
+AS  := nasm
+LD  := ld.lld -m elf_$(ARCH)
 
 CXXFLAGS?=-g -Og
-ASFLAGS?=-g
+ASFLAGS?=-g -F dwarf
 CPPFLAGS?=
 
-CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra -mcmodel=large -fno-exceptions -fno-rtti
+CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra -mcmodel=large -fno-exceptions -fno-rtti -fno-builtin 
 ASFLAGS += -f elf64
-CPPFLAGS += -D__is_kernel -I$(OBJDIR)/include
+CPPFLAGS += -D__is_kernel -I$(OBJDIR)/include -nostdinc++
 
-LIBS := -nostdlib -lgcc
+LIBS := -nostdlib
 
 KOBJ := $(subst .cpp,.o,$(shell find $(KDIR) -type f -name "*.cpp" -not -path "$(KDIR)/arch/*"))
 KOBJ += $(subst .asm,.o,$(shell find $(KDIR) -type f -name "*.asm" -not -path "$(KDIR)/arch/*"))
@@ -24,22 +24,28 @@ KARCHOBJ += $(subst .asm,.o,$(shell find $(KDIR)/arch/$(ARCH)/ -type f -name "*.
 all: $(OBJDIR)/kernel.elf
 
 $(OBJDIR)/kernel.elf: headers $(KOBJ) $(KARCHOBJ)
-	mkdir -p $(OBJDIR)
-	$(CXX) $(CXXFLAGS) -T $(KDIR)/arch/$(ARCH)/linker.ld -o $@ $(KOBJ) $(KARCHOBJ) $(LIBS)
+	@mkdir -p $(OBJDIR)
+	@echo Linking kernel
+	@$(CXX) $(CXXFLAGS) -T $(KDIR)/arch/$(ARCH)/linker.ld -o $@ $(KOBJ) $(KARCHOBJ) $(LIBS)
 
 %.o: %.cpp
-	$(CXX) -c $< -o $@ $(CXXFLAGS) $(CPPFLAGS)
+	@echo CXX $<
+	@$(CXX) -c $< -o $@ $(CXXFLAGS) $(CPPFLAGS)
 
 %.o: %.asm
-	$(AS) $(ASFLAGS) -o $@ $< 
+	@echo AS $<
+	@$(AS) $(ASFLAGS) -o $@ $< 
 
 %.o: %.bin
-	$(LD) -r -b binary -o $@ $<
+	@echo LD $<
+	@$(LD) -r -b binary -o $@ $<
 
 headers:
-	mkdir -p $(OBJDIR)/include/
-	ln -s -f $(PWD)/$(KDIR)/include/ $(PWD)/$(OBJDIR)/include/$(KDIR)
-	rm -f $(KDIR)/include/include # If there's already a symlink for build/include/kernel it'll make another one in kernel/include, so delete it if that happens
+	@mkdir -p $(OBJDIR)/include/
+	@echo Making symlink to kernel headers
+	@ln -s -f $(PWD)/$(KDIR)/include/ $(PWD)/$(OBJDIR)/include/$(KDIR)
+	@rm -f $(KDIR)/include/include # If there's already a symlink for build/include/kernel it'll make another one in kernel/include, so delete it if that happens
 
 clean:
-	rm -f $(KOBJ) $(KARCHOBJ)
+	@echo Cleaning kernel objects
+	@rm -f $(KOBJ) $(KARCHOBJ)

@@ -10,19 +10,24 @@ QEMUFLAGS := -cdrom tinuk.img -smp 8
 all: install
 
 qemu: install
-	qemu-system-$(ARCH) $(QEMUFLAGS) 
+	@echo Running QEMU
+	@qemu-system-$(ARCH) $(QEMUFLAGS) 
 
 qemu-debug: install
-	qemu-system-$(ARCH) $(QEMUFLAGS) -s -S
+	@echo Running QEMU listening for GDB
+	@qemu-system-$(ARCH) $(QEMUFLAGS) -s -S
 
 install: kernel
-	mkdir -p $(OBJDIR)/boot
-	cp $(OBJDIR)/kernel.elf $(OBJDIR)/boot/
-	mkbootimg bootboot.json tinuk.img
+	@mkdir -p $(OBJDIR)/boot
+	@cp $(OBJDIR)/kernel.elf $(OBJDIR)/boot/
+	@echo Making kernel image with BOOTBOOT
+	@mkbootimg bootboot.json tinuk.img
 
 kernel:
-	$(MAKE) -f $(KDIR)/Makefile
+	@echo Making kernel
+	@$(MAKE) -f $(KDIR)/Makefile
 
 clean:
-	$(MAKE) -f $(KDIR)/Makefile clean
-	rm -rf $(OBJDIR)
+	@$(MAKE) -f $(KDIR)/Makefile clean
+	@echo Cleaning build directory
+	@rm -rf $(OBJDIR)

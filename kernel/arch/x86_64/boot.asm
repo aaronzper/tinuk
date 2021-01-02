@@ -1,3 +1,5 @@
+DEFAULT REL
+
 SECTION .text
 GLOBAL _start
 GLOBAL _hang
