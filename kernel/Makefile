@@ -1,14 +1,14 @@
 CXX := clang++ -target $(ARCH)-pc-none-elf
 AS  := nasm
-LD  := ld.lld -m elf_$(ARCH)
+LD  := ld
 
 CXXFLAGS?=-g -Og
 ASFLAGS?=-g -F dwarf
 CPPFLAGS?=
 
-CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra -mcmodel=large -fno-exceptions -fno-rtti -fno-builtin 
+CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra -mcmodel=large -fno-exceptions -fno-rtti
 ASFLAGS += -f elf64
-CPPFLAGS += -D__is_kernel -I$(OBJDIR)/include -nostdinc++
+CPPFLAGS += -D__is_kernel -I$(OBJDIR)/include
 
 LIBS := -nostdlib
 
