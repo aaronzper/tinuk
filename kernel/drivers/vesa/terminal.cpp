@@ -35,3 +35,11 @@ void VESATerminal::write(const char* str, size_t len) {
 		}
 	}
 }
+
+void VESATerminal::set_fg(const Color::ARGB& _fg) {
+	fg = _fg;
+}
+
+void VESATerminal::set_bg(const Color::ARGB& _bg) {
+	bg = _bg;
+}

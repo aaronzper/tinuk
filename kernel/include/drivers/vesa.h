@@ -54,6 +54,8 @@ namespace VESA {
 		public:
 			VESATerminal(VESABuffer _buf, Color::ARGB _fg, Color::ARGB _bg, PSF _font);
 			void write(const char* str, size_t len) override;
+			void set_fg(const Color::ARGB& _fg) override;
+			void set_bg(const Color::ARGB& _bg) override;
 
 		private:
 			VESABuffer buf;	
