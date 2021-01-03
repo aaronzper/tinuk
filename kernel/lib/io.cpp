@@ -9,6 +9,10 @@ void IO::set_terminal(Terminal* t) {
 	term = t;
 }
 
+Terminal* IO::get_terminal() {
+	return term;
+}
+
 void IO::printk(const char* fmt, ...) {
 	va_list args;
 	va_start(args, fmt);	
