@@ -1,5 +1,5 @@
-extern "C" void _hang();
+#include <kernel/panic.h>
 
 [[noreturn]] extern "C" void __cxa_pure_virtual() {
-	_hang();
+	kpanic("Pure virtual function called");
 }
