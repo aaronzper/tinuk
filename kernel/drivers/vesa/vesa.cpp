@@ -2,7 +2,7 @@
 
 using namespace VESA;
 
-VESABuffer::VESABuffer(ARGB* fb_ptr, uint32_t w, uint32_t h, uint32_t s) {
+VESABuffer::VESABuffer(Color::ARGB* fb_ptr, uint32_t w, uint32_t h, uint32_t s) {
 	fb = fb_ptr;
 	width = w;
 	height = h;
@@ -21,7 +21,7 @@ uint32_t VESABuffer::getScanline() {
 	return scanline;
 }
 
-void VESABuffer::crosshair(ARGB color, unsigned int x, unsigned int y) {
+void VESABuffer::crosshair(Color::ARGB color, unsigned int x, unsigned int y) {
 	for(unsigned int y_pos = 0; y_pos < height; y_pos++) {
 		fb[(width * y_pos) + (y)] = color;
 	}
@@ -31,7 +31,7 @@ void VESABuffer::crosshair(ARGB color, unsigned int x, unsigned int y) {
 	}
 }
 
-void VESABuffer::box(ARGB color, unsigned int x, unsigned int y, unsigned int w, unsigned int h) {
+void VESABuffer::box(Color::ARGB color, unsigned int x, unsigned int y, unsigned int w, unsigned int h) {
 	unsigned int max_x = x + w;
 	unsigned int max_y = y + h;
 	unsigned int orig_x = x;
@@ -45,7 +45,7 @@ void VESABuffer::box(ARGB color, unsigned int x, unsigned int y, unsigned int w,
 	}
 }
 
-void VESABuffer::drawchar(char c, PSF font, unsigned int cx, unsigned int cy, ARGB fg, ARGB bg) {
+void VESABuffer::drawchar(char c, PSF font, unsigned int cx, unsigned int cy, Color::ARGB fg, Color::ARGB bg) {
 	unsigned char* glyph = font[c];
 
 	unsigned int x = cx * font.width();

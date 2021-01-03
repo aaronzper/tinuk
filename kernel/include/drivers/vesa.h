@@ -1,6 +1,7 @@
 #include <kernel/bootboot.h>
 #include <stdint.h>
 #include <kernel/drivers/terminal.h>
+#include <kernel/types/color.h>
 
 #pragma once
 
@@ -18,13 +19,6 @@ namespace VESA {
 		uint32_t width;         // Glyph width in pixels
 	} PSFHeader;
 
-	typedef struct ARGB {
-		uint8_t blue;
-		uint8_t green;
-		uint8_t red;
-		uint8_t alpha;
-	} __attribute__((__packed__)) ARGB;
-
 	class PSF {
 		public:
 			PSF(PSFHeader* h);
@@ -39,18 +33,18 @@ namespace VESA {
 
 	class VESABuffer {
 		public:
-			VESABuffer(ARGB* fb_ptr, uint32_t w, uint32_t h, uint32_t s);
+			VESABuffer(Color::ARGB* fb_ptr, uint32_t w, uint32_t h, uint32_t s);
 
 			uint32_t getWidth();
 			uint32_t getHeight();
 			uint32_t getScanline();
 
-			void crosshair(ARGB color, unsigned int x, unsigned int y);
-			void box(ARGB color, unsigned int x, unsigned int y, unsigned int w, unsigned int h);
-			void drawchar(char c, PSF font, unsigned int cx, unsigned int cy, ARGB fg, ARGB bg);
+			void crosshair(Color::ARGB color, unsigned int x, unsigned int y);
+			void box(Color::ARGB color, unsigned int x, unsigned int y, unsigned int w, unsigned int h);
+			void drawchar(char c, PSF font, unsigned int cx, unsigned int cy, Color::ARGB fg, Color::ARGB bg);
 
 		private:
-			ARGB* fb;
+			Color::ARGB* fb;
 			uint32_t width;
 			uint32_t height;
 			uint32_t scanline;
@@ -58,13 +52,13 @@ namespace VESA {
 
 	class VESATerminal : public Terminal {
 		public:
-			VESATerminal(VESABuffer _buf, ARGB _fg, ARGB _bg, PSF _font);
+			VESATerminal(VESABuffer _buf, Color::ARGB _fg, Color::ARGB _bg, PSF _font);
 			void write(const char* str, size_t len) override;
 
 		private:
 			VESABuffer buf;	
-			ARGB fg;
-			ARGB bg;
+			Color::ARGB fg;
+			Color::ARGB bg;
 			PSF font;
 	};
 }

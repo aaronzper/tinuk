@@ -3,7 +3,7 @@
 
 using namespace VESA;
 
-VESATerminal::VESATerminal(VESABuffer _buf, ARGB _fg, ARGB _bg, PSF _font) : buf(_buf), font(_font) {
+VESATerminal::VESATerminal(VESABuffer _buf, Color::ARGB _fg, Color::ARGB _bg, PSF _font) : buf(_buf), font(_font) {
 	fg = _fg;
 	bg = _bg;
 }

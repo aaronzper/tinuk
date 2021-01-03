@@ -4,12 +4,12 @@
 
 extern char environment;
 
-extern "C" void kmain(BootbootInfo* bootboot, VESA::ARGB* fb, VESA::PSFHeader* psf, const char* environment) {
+extern "C" void kmain(BootbootInfo* bootboot, Color::ARGB* fb, VESA::PSFHeader* psf, const char* environment) {
 	VESA::VESABuffer v(fb, bootboot->fb_width, bootboot->fb_height, bootboot->fb_scanline);
 	VESA::PSF font(psf);
 
-	VESA::ARGB black;
-	VESA::ARGB white;
+	Color::ARGB black;
+	Color::ARGB white;
 	white.red = 255;
 	white.green = 255;
 	white.blue = 255;
