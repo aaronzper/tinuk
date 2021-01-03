@@ -2,9 +2,9 @@
 #include <kernel/io.h>
 #include <kernel/drivers/vesa.h>
 
-extern "C" void _hang(); // _hang function in boot.asm
+[[noreturn]] extern "C" void _hang(); // _hang function in boot.asm
 
-void kpanic(const char* msg) {
+[[noreturn]] void kpanic(const char* msg) {
 	Color::ARGB red;
 	red.red = 255;
 	red.green = 0;

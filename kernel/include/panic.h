@@ -1,3 +1,3 @@
 #pragma once
 
-void kpanic(const char* msg);
+[[noreturn]] void kpanic(const char* msg);
