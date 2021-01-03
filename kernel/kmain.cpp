@@ -1,6 +1,7 @@
 #include <kernel/drivers/vesa.h>
 #include <kernel/bootboot.h>
 #include <kernel/io.h>
+#include <kernel/panic.h>
 
 extern char environment;
 
@@ -35,4 +36,6 @@ extern "C" void kmain(BootbootInfo* bootboot, Color::ARGB* fb, VESA::PSFHeader* 
 
 	IO::printk("Total memory detected: %u mb\n", total_mem / 1024 / 1024);
 	IO::printk("Unusable memory detected: %u kb\n", unusable_mem / 1024);
+
+	kpanic("Test panic");
 }
