@@ -56,11 +56,14 @@ namespace VESA {
 			void write(const char* str, size_t len) override;
 			void set_fg(const Color::ARGB& _fg) override;
 			void set_bg(const Color::ARGB& _bg) override;
+			void set_pos(unsigned int x_pos, unsigned int y_pos) override;
 
 		private:
 			VESABuffer buf;	
 			Color::ARGB fg;
 			Color::ARGB bg;
 			PSF font;
+			unsigned int x;
+			unsigned int line;
 	};
 }
