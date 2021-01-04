@@ -5,6 +5,15 @@
 [[noreturn]] extern "C" void _hang(); // _hang function in boot.asm
 
 [[noreturn]] void kpanic(const char* msg) {
+	static bool panicking = false;
+
+	// If kpanic is called again, during the handling of a panic
+	if(panicking) {
+		_hang();
+	}
+
+	panicking = true;
+
 	Color::ARGB red;
 	red.red = 255;
 	red.green = 0;
