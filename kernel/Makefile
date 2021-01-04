@@ -8,7 +8,7 @@ CPPFLAGS?=
 
 CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra -mcmodel=large -fno-exceptions -fno-rtti
 ASFLAGS += -f elf64
-CPPFLAGS += -D__is_kernel -I$(OBJDIR)/include
+CPPFLAGS += -I$(OBJDIR)/include
 
 LIBS := -nostdlib
 
