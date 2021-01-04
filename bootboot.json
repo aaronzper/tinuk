@@ -1,6 +1,6 @@
 {
     "iso9660": true,
-    "config": "bootconfig.txt",
+    "config": "kernel/config.txt",
     "initrd": { "type": "tar", "gzip": true, "directory": "build/boot" },
     "partitions": [
         { "type": "boot", "size": 16 }
