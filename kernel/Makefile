@@ -10,7 +10,7 @@ CXXFLAGS += -ffreestanding -mno-red-zone -Wall -Wextra -mcmodel=large -fno-excep
 ASFLAGS += -f elf64
 CPPFLAGS += -I$(OBJDIR)/include
 
-LIBS := -nostdlib
+LIBS := -nostdlib -lgcc
 
 KOBJ := $(subst .cpp,.o,$(shell find $(KDIR) -type f -name "*.cpp" -not -path "$(KDIR)/arch/*"))
 KOBJ += $(subst .asm,.o,$(shell find $(KDIR) -type f -name "*.asm" -not -path "$(KDIR)/arch/*"))
