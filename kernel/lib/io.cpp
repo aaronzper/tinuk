@@ -15,7 +15,7 @@ Terminal* IO::get_terminal() {
 
 void IO::printk(const char* fmt, ...) {
 	va_list args;
-	va_start(args, fmt);	
+	va_start(args, fmt);
 
 	bool parse = false;
 	for(size_t i = 0; i < strlen(fmt); i++) {
@@ -24,6 +24,7 @@ void IO::printk(const char* fmt, ...) {
 			continue;
 		}
 
+		// String
 		if(fmt[i] == 's' && parse) {
 			const char* str = va_arg(args, const char*);
 			term->write(str, strlen(str));
@@ -31,6 +32,7 @@ void IO::printk(const char* fmt, ...) {
 			continue;
 		}
 
+		// Unsigned int
 		if(fmt[i] == 'u' && parse) {
 			// Do a uint64 since we dont know how big it'll be
 			uint64_t num = va_arg(args, uint64_t);
@@ -50,8 +52,8 @@ void IO::printk(const char* fmt, ...) {
 			for(size_t i = 0; num != 0; i++) {
 				int rem = num % 10;
 
-				buf[i] = (rem > 9) ? (rem-10) + 'a' : rem + '0'; 
-				
+				buf[i] = (rem > 9) ? (rem-10) + 'a' : rem + '0';
+
 				num /= 10;
 			}
 
@@ -64,6 +66,6 @@ void IO::printk(const char* fmt, ...) {
 			continue;
 		}
 
-		term->write(&fmt[i], 1);	
+		term->write(&fmt[i], 1);
 	}
 }
