@@ -1,10 +1,11 @@
 #include <kernel/drivers/vesa.h>
+#include <kernel/panic.h>
 
 using namespace VESA;
 
 PSF::PSF(PSFHeader* h) {
-	if(psf_header->magic != PSF_magic) {
-		// Do something
+	if(h->magic != PSF_magic) {
+		kpanic("Invalid PSF magic value");
 	}
 
 	psf_header = h;
