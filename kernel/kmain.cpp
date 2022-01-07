@@ -20,6 +20,7 @@ extern "C" void kmain(BootbootInfo* bootboot, Color::ARGB* fb, VESA::PSFHeader* 
 
 	IO::printk("Initialized VESA terminal\n");
 	IO::printk("Number of cores detected: %u\n", bootboot->numcores);
+	IO::printk("CPU cores detected: %u\n", bootboot->numcores);
 
 	unsigned int mmap_entries = (bootboot->size - 128) / 16;
 	MMapEnt* mmap = &bootboot->mmap;
